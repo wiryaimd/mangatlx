@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+*{
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+.font-popp-400{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;    
+}
+
+.font-popp-500{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+.font-popp-600{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+.ic-folder{
+    width: 50px;
+    content: url("./img/folder-ic.svg");
+}
+
+.input-style{
+    color: #009baf;
+}
+
+.input-style:focus{
+    color: #009baf;
+}
+
+.footer ul li{
+    list-style: none;
+    margin-left: -2rem;
+}
+
+.slick-prev, .slick-next {
+    z-index: 1;
+}
+  
+.slick-next:before{
+    /* content: '' !important; */
+    content: url("./img/arrow-right-circle-fill.svg") !important;
+    margin-left: -32px;
+}
+
+.slick-prev:before{
+    content: url("./img/arrow-left-circle-fill.svg") !important;
+    margin-right: -32px;
+}
