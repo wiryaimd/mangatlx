@@ -7,18 +7,21 @@ import MainSlide from './components/MainSlide';
 import Footer from './components/Footer';
 
 import Slidetl from './components/Slidetl';
-import Tlx from './Tlx';
+import Tlx from './page/Tlx';
+import TlxResult from './page/TlxResult';
+import Collections from './page/Collections';
+import Login from './page/Login';
+import Signup from './page/Signup';
 
 const Main = function(){
 
     return (
         <div>
-
             <Navigation />
 
             <div className="container-fluid pt-5">
 
-                <div className="row px-5 pt-5 align-items-center" style={{"backgroundColor": "#f1f1f1"}}>
+                <div className="row px-2 px-sm-5 pt-5 align-items-center" style={{"backgroundColor": "#f1f1f1"}}>
                     <div className="col-md-7 col-lg-6 mb-5">
                         <MainSlide />
                     </div>
@@ -43,7 +46,7 @@ const Main = function(){
                         <Slidetl />
                     </div>
 
-                </div>                
+                </div>
 
             </div>
             
@@ -61,6 +64,11 @@ function App() {
             <Routes>
                 <Route path="/" element={<Main />} />
                 <Route path="/translatex" element={<Tlx />} />
+                <Route path="/collections" element={<Collections />} />
+                <Route path="/result" element={<TlxResult />} />
+
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
             </Routes>
         </BrowserRouter>
     );

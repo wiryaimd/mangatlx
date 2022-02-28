@@ -32,7 +32,7 @@ const Navigation = function(){
                             </li>
 
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Collections</a>
+                                <a className="nav-link" href="/collections">Collections</a>
                             </li>
 
                             <li className="nav-item">

@@ -38,11 +38,11 @@ const Slidetl = function(){
 
     return(
         <div>
-            <Slider {...slideSettings} className="mx-4">
+            <Slider {...slideSettings} className="mx-2 mx-sm-4">
                 {
                     mainData.map(function(num, index){
                         return (
-                            <div className="card p-3" key={num}>
+                            <div className="card p-1" key={num}>
                                 <img src={sl3} className="card-img-top" alt="tl-result.jpg"></img>
                                 <div className="card-body">
                                     <h5 className="card-title">Anjim bett</h5>
