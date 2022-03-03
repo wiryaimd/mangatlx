@@ -1,10 +1,18 @@
 import 'bootstrap-icons/font/bootstrap-icons.css'; // import icon bootstrap boyy
+import { Link } from 'react-router-dom';
 
 // gaperlu import ini karena udh di index yach
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap/dist/js/bootstrap.bundle.js'; // perlu untuk collapse navbar nya yachh
 
 const Navigation = function(){
+    
+    let userData = localStorage.getItem("userdata");
+    let logged = false;
+
+    if(userData != null){
+        logged = true;
+    }
 
     return (
         <div>
@@ -24,19 +32,27 @@ const Navigation = function(){
                     <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <a className="nav-link" href="/">Home</a>
+                                <Link to="/" className="nav-link"><i className="bi bi-house-door"></i></Link>
                             </li>
                             
                             <li className="nav-item">
-                                <a className="nav-link" href="/translatex">TranslateX</a>
+                                <Link to="/translatex" className="nav-link"><i className="bi bi-translate"></i></Link>
                             </li>
 
                             <li className="nav-item">
-                                <a className="nav-link" href="/collections">Collections</a>
+                                <Link to="/collections" className="nav-link"><i className="bi bi-box-seam"></i></Link>
                             </li>
 
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Account</a>
+                                {logged ?
+                                    <Link to="/account" className="nav-link">
+                                        <i className="fa fa-user"></i>
+                                    </Link>
+                                    : 
+                                    <Link to="/login" className="nav-link">
+                                        Sign In
+                                    </Link>
+                                }
                             </li>
                         </ul>
                     </div>

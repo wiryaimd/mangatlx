@@ -1,5 +1,5 @@
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useNavigate, Link, Outlet, useLocation } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import './App.css';
 import MainSlide from './components/MainSlide';
@@ -12,8 +12,15 @@ import TlxResult from './page/TlxResult';
 import Collections from './page/Collections';
 import Login from './page/Login';
 import Signup from './page/Signup';
+import { useEffect } from 'react';
 
 const Main = function(){
+
+    let navigate = useNavigate();
+    
+    function handleStart(){
+        navigate("/translatex");
+    }
 
     return (
         <div>
@@ -30,7 +37,7 @@ const Main = function(){
                         <h4>Automatically translate Manga/Manhwa/Manhua or other Comics to any languages you want</h4>
                         <p className="font-popp-400">Fast translation up to 60+ languages. This web will atuomatically detect text in image, auto translate text and draw text automatically</p>
 
-                        <button className="btn btn-primary px-5 py-2 mt-2 mb-5">Start Translate</button>
+                        <button className="btn btn-primary px-5 py-2 mt-2 mb-5" onClick={handleStart}>Start Translate</button>
                     </div>
                 </div>
 
@@ -61,17 +68,42 @@ const Main = function(){
 function App() {
     return (
         <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Main />} />
-                <Route path="/translatex" element={<Tlx />} />
-                <Route path="/collections" element={<Collections />} />
-                <Route path="/result" element={<TlxResult />} />
 
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
+            <ScrollToTop />
+
+            <Routes>
+                {/* dalam route bisa ada child path nya lagi dan bisa menentukan index nya */}
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<Main />}/>
+
+                    <Route path="translatex" element={<Tlx />} />
+                    <Route path="collections" element={<Collections />} />
+                    <Route path="result" element={<TlxResult />} />
+
+                    <Route path="login" element={<Login />} />
+                    <Route path="signup" element={<Signup />} />
+                </Route>
             </Routes>
         </BrowserRouter>
     );
+}
+
+function Layout(){
+    // outlet untuk render child dari route nya yach
+    return(
+        <div>
+            <Outlet />
+        </div>
+    );
+}
+
+function ScrollToTop(){
+    const { pathname } = useLocation();
+    useEffect(function(){
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
+    return null;
 }
 
 export default App;
