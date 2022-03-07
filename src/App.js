@@ -12,9 +12,12 @@ import TlxResult from './page/TlxResult';
 import Collections from './page/Collections';
 import Login from './page/Login';
 import Signup from './page/Signup';
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 const Main = function(){
+
+    let [open, setOpen] = useState();
+    let accMenu = useRef();
 
     let navigate = useNavigate();
     
@@ -22,9 +25,43 @@ const Main = function(){
         navigate("/translatex");
     }
 
+    function handleAccMenu(){
+        console.log("eee busett dahhao aowkawokoaw");
+
+        if(!open){
+
+
+            accMenu.current.style.display = "none";
+            setOpen(true);
+        }else{
+            accMenu.current.style.display = "block";
+            setOpen(false);
+        }
+    }
+
+    function logout(){
+        localStorage.removeItem("userdata");
+
+        // referesh navigation
+        // nvm
+    }
+
     return (
         <div>
-            <Navigation />
+            <Navigation accMenu={handleAccMenu} />
+
+            <div className="position-absolute mt-5 p-3 end-0 bg-light border rounded-3 w-25 mx-3" ref={accMenu}>
+                <h5>Wiryaimd Wanjay</h5>
+
+                <div className="row">
+                    <div className="col-12">
+                        <a href="#">My Collections</a>
+                    </div>
+                    <div className="col-12">
+                        <a href="#" onClick={logout}>Logout</a>
+                    </div>
+                </div>
+            </div>
 
             <div className="container-fluid pt-5">
 
