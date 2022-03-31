@@ -11,9 +11,9 @@ const Collections = function(){
 
             <Navigation />
             
-            <div className="container mt-5 py-5">
+            <div className="container-fluid pt-5">
 
-                <div className="input-group">
+                <div className="input-group mt-5">
                     <span className="input-group-text bi bi-search px-3"></span>
                     <input id="coll-input" type="url" className="form-control py-2" placeholder="Translated name..."></input>
                     <button className="btn btn-success px-4 font-popp-400">Search</button>

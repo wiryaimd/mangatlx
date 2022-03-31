@@ -16,52 +16,21 @@ import { useEffect, useState, useRef } from 'react';
 
 const Main = function(){
 
-    let [open, setOpen] = useState();
-    let accMenu = useRef();
-
     let navigate = useNavigate();
+
+
+    // jadi gini borr, useEffect itu bakal ngerun code di tengahnya itu saat ada web nge rerender ulang yaa, trus ada array di param kedua juga bisa dipake untuk menentukan state mana yg bakal di listen ketika state tersebut menyebabkan render ulang yekannntod
+    // useEffect(function(){
+    //     console.log("menganjae anjae aowkawokawo");
+    // }, [dataStateBorr]);
     
     function handleStart(){
         navigate("/translatex");
     }
 
-    function handleAccMenu(){
-        console.log("eee busett dahhao aowkawokoaw");
-
-        if(!open){
-
-
-            accMenu.current.style.display = "none";
-            setOpen(true);
-        }else{
-            accMenu.current.style.display = "block";
-            setOpen(false);
-        }
-    }
-
-    function logout(){
-        localStorage.removeItem("userdata");
-
-        // referesh navigation
-        // nvm
-    }
-
     return (
         <div>
-            <Navigation accMenu={handleAccMenu} />
-
-            <div className="position-absolute mt-5 p-3 end-0 bg-light border rounded-3 w-25 mx-3" ref={accMenu}>
-                <h5>Wiryaimd Wanjay</h5>
-
-                <div className="row">
-                    <div className="col-12">
-                        <a href="#">My Collections</a>
-                    </div>
-                    <div className="col-12">
-                        <a href="#" onClick={logout}>Logout</a>
-                    </div>
-                </div>
-            </div>
+            <Navigation />
 
             <div className="container-fluid pt-5">
 

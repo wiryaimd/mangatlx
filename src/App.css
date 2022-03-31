@@ -53,6 +53,10 @@
     margin-left: -2rem;
 }
 
+.zindex-hundred{
+    z-index: 100;
+}
+
 .slick-prev, .slick-next {
     z-index: 1;
 }

@@ -1,6 +1,6 @@
 import 'bootstrap-icons/font/bootstrap-icons.css'; // import icon bootstrap boyy
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState, useRef } from 'react';
 
 // gaperlu import ini karena udh di index yach
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,7 +8,10 @@ import { useState } from 'react';
 
 const Navigation = function(props){
 
-    let [open, setOpen] = useState();
+    let [open, setOpen] = useState(false);
+    let accMenu = useRef();
+
+    let navigate = useNavigate();
     
     let userData = localStorage.getItem("userdata");
     let logged = false;
@@ -18,11 +21,43 @@ const Navigation = function(props){
     }
 
     function handleAccMenu(){
-        props.accMenu();
+        if(open){
+            // accMenu.current.style.display = "none";
+            setOpen(false);
+            return;
+        }
+
+        // accMenu.current.style.display = "block";
+        setOpen(true);
+        
+    }
+
+    function logout(){
+        localStorage.removeItem("userdata");
+        navigate("/login");
+        // referesh navigation
+        // nvm
     }
 
     return (
         <div>
+
+            { open &&
+                <div className="position-absolute mt-5 p-3 end-0 bg-light border rounded-3 w-25 mx-3 zindex-hundred" ref={accMenu}>
+                    <h5>Wiryaimd Wanjay</h5>
+
+                    <div className="row">
+                        <div className="col-12">
+                            <a href="#">My Collections</a>
+                        </div>
+                        <div className="col-12">
+                            <a href="#" onClick={logout}>Logout</a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
             {/* membuat navigation */}
             <nav className="navbar navbar-expand-md bg-light fixed-top bg-white border-bottom">
 
@@ -39,21 +74,21 @@ const Navigation = function(props){
                     <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link to="/" className="nav-link"><i className="bi bi-house-door"></i></Link>
+                                <Link to="/" className="nav-link"><i className="bi bi-house-door ms-3"></i> Home</Link>
                             </li>
                             
                             <li className="nav-item">
-                                <Link to="/translatex" className="nav-link"><i className="bi bi-translate"></i></Link>
+                                <Link to="/translatex" className="nav-link"><i className="bi bi-translate ms-3"></i> Tlx</Link>
                             </li>
 
                             <li className="nav-item">
-                                <Link to="/collections" className="nav-link"><i className="bi bi-box-seam"></i></Link>
+                                <Link to="/collections" className="nav-link"><i className="bi bi-box-seam ms-3"></i> Collections</Link>
                             </li>
 
                             <li className="nav-item">
                                 {logged ?
                                     <Link to="#" className="nav-link" onClick={handleAccMenu}>
-                                        <i className="fa fa-user"></i>
+                                        <i className="fa fa-user ms-3"></i> Account
                                     </Link>
                                     : 
                                     <Link to="/login" className="nav-link">

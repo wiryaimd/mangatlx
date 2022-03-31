@@ -3,7 +3,7 @@ const Footer = function(){
     return(
         <div className="footer">
 
-            <div className="row px-3 py-5 p-sm-5">
+            <div className="row px-3 py-5 p-sm-5 bg-dark">
                 <div className="col-12 col-md-5">
                     <h5 className="text-white">MangaTLX</h5>
                     <p className="text-light fw-light">(C) 2022 Wiryaimd. All rights reversed</p>

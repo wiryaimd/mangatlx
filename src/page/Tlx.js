@@ -1,24 +1,90 @@
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
 import sl1 from '../img/sl1.jpg';
+import axios from "axios";
+import { useState, useRef, useEffect } from "react";
 
 const Tlx = function(){
 
-    let selectedData = [1, 2, 3];
+    let user = JSON.parse(localStorage.getItem("userdata"));
+
+    let [urlScrap, setUrlScrap] = useState("");
+    let [imgList, setImgList] = useState([]);
+
+    let [loading, setLoading] = useState(false);
+
+    function handleInputUrl(e){
+        setUrlScrap(e.target.value);
+    }
+
+    function handleScrapImg(e){
+        e.preventDefault();
+
+        setLoading(true);
+
+        console.log(user.username);
+        console.log(user.password);
+
+        let data = {
+            url: urlScrap
+        }
+
+        axios.post("http://localhost:8080/v1/find", JSON.stringify(data), {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            auth: {
+                username: user.username,
+                password: user.password
+            }
+        }).then(function(res){
+            if(res.status == 200){
+                let data = JSON.parse(JSON.stringify(res.data));
+                console.log("cek ecekekckc: ", data);
+                console.log(data.url);
+                
+                setImgList(data.imgList);
+
+                setLoading(false);
+            }
+        }).catch(function(err){
+            console.log("ngerrrongk: " + err);
+            setLoading(false);
+        });
+    }
+
+    function handleInputImg(e){
+        e.preventDefault();
+
+        let img = [];
+        let selectedData = e.target.files;
+        for(let i = 0; i < selectedData.length; i++){
+            img.push(selectedData[i].name);
+            console.log("selected data: " + selectedData[i].name);
+        }
+
+        setImgList(imgList.concat(img));
+
+        if(imgList.length > 32){
+            // max nyach seginich yachh
+            return;
+        }
+
+    }
 
     return(
         <div className="bg-light">
             <Navigation />
 
-            <div className="container-fluid pt-5 bg-light">
+            <div className="container-fluid pt-5 bg-light min-vh-100">
 
                 <div className="row mt-4 mx-3">
                     <div className="col-lg-6">
                         <label htmlFor="tlxInputUrl" className="form-label fw-light">URL of Chapter from Web Commics</label>
                         <div className="input-group">
                             <span className="input-group-text bi bi-link-45deg px-3"></span>
-                            <input id="tlxInputUrl" type="url" className="form-control input-style" placeholder="Chapter URL"></input>
-                            <button className="btn btn-success px-4">Find</button>
+                            <input id="tlxInputUrl" type="url" className="form-control input-style" placeholder="Chapter URL" onChange={handleInputUrl}></input>
+                            <button className="btn btn-success px-4" onClick={handleScrapImg}>Find</button>
                         </div>
 
                     </div>
@@ -26,26 +92,37 @@ const Tlx = function(){
                     <div className="col-lg-3 ms-lg-3 mt-3 mt-lg-0">
                         <label htmlFor="tlxInputImg" className="form-label fw-light">Or Select From Local</label>
                         <div className="input-group">
-                            <input id="tlxInputImg" type="file" style={{display: "none"}}></input>
+                            <input id="tlxInputImg" type="file" style={{display: "none"}} accept="image/*" multiple onChange={handleInputImg}></input>
                             <label className="input-group-text px-3 ic-folder" htmlFor="tlxInputImg"></label>   
                             <label id="tlx-local" htmlFor="tlxInputImg" role="button" className="input-group-text bg-light">From Local</label>
                         </div>
                     </div>
 
                 </div>
+
+                <div className="row mt-5">
+                    <div id="tlx-loading" className="col-12 d-flex justify-content-center">
+                        { loading &&
+                            <div className="spinner-border" role="status">
+                                <span className="visually-hidden">Loading..</span>
+                            </div>
+                        }
+                    </div>
+
+                </div>
                 
-                <div className="row bg-white mt-5 mx-3 rounded-3">
+                <div className="row bg-white mx-3 rounded-3">
                     <div className="col-12 m-3">
                         <h5 className="font-popp-400">Selected Comics</h5>
                     </div>
 
                     {
-                        selectedData.map(function(num, index){
+                        imgList.map(function(num, index){
                             return (
                                 <div key={num} className="col-12 px-3 px-sm-5 py-1 d-flex align-items-center justify-content-between border-bottom">
                                     <div className="d-flex">
                                         <i className="ic-folder"></i>
-                                        <p className="mt-auto mx-2">lanjaeikana-nananan.jpg</p>
+                                        <p className="mt-auto mx-2">{imgList[index]}</p>
                                     </div>
                                     
                                     <i className="bi bi-x-lg " role="button"></i>
@@ -85,7 +162,7 @@ const Tlx = function(){
                 </div>
             </div>
 
-            <div className="container-fluid mt-5 bg-dark">
+            <div className="container-fluid bg-dark mt-5">
                 <Footer />
             </div>
 
