@@ -13,6 +13,16 @@ const Tlx = function(){
 
     let [loading, setLoading] = useState(false);
 
+    function handleRemoveClick(index){
+        let data = [...imgList];
+        data.splice(index, 1);
+        setImgList(data);
+    }
+
+    function handleCloseError(){
+
+    }
+
     function handleInputUrl(e){
         setUrlScrap(e.target.value);
     }
@@ -110,6 +120,16 @@ const Tlx = function(){
                     </div>
 
                 </div>
+
+                <div className="row mx-5">
+                    <div className="row">
+                        <div className="col-12 d-flex bg-danger rounded-3">
+                            <i className="bi bi-exclamation-circle text-white m-2"></i>
+                            <p className="font-popp-400 text-white m-2">Failed to Upload image menganjaehayuupapa_leyeah.jpg (Test)</p>
+                            <i className="bi bi-x-lg align-items-end text-dark m-2 ms-auto" role="button" onClick={handleCloseError}></i>
+                        </div>
+                    </div>
+                </div>
                 
                 <div className="row bg-white mx-3 rounded-3">
                     <div className="col-12 m-3">
@@ -118,14 +138,16 @@ const Tlx = function(){
 
                     {
                         imgList.map(function(num, index){
+                            const uid = crypto.randomUUID();
+                            {/* console.log(uid); */}
                             return (
-                                <div key={num} className="col-12 px-3 px-sm-5 py-1 d-flex align-items-center justify-content-between border-bottom">
+                                <div key={uid} className="col-12 px-3 px-sm-5 py-1 d-flex align-items-center justify-content-between border-bottom">
                                     <div className="d-flex">
                                         <i className="ic-folder"></i>
                                         <p className="mt-auto mx-2">{imgList[index]}</p>
                                     </div>
                                     
-                                    <i className="bi bi-x-lg " role="button"></i>
+                                    <i className="bi bi-x-lg " role="button" onClick={() => handleRemoveClick(index)}></i>
                                 </div>
                             );
                         })
