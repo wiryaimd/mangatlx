@@ -13,7 +13,7 @@ const Navigation = function(props){
 
     let navigate = useNavigate();
     
-    let userData = localStorage.getItem("userdata");
+    let userData = JSON.parse(localStorage.getItem("userdata"));
     let logged = false;
 
     if(userData != null){
@@ -44,7 +44,7 @@ const Navigation = function(props){
 
             { open &&
                 <div className="position-absolute mt-5 p-3 end-0 bg-light border rounded-3 w-25 mx-3 zindex-hundred" ref={accMenu}>
-                    <h5>Wiryaimd Wanjay</h5>
+                    <h5>{userData.username}</h5>
 
                     <div className="row">
                         <div className="col-12">

@@ -72,6 +72,9 @@ const Main = function(){
 }
 
 function App() {
+    const uid = crypto.randomUUID().substring(0, 8);
+    console.log("uid created: " + uid);
+
     return (
         <BrowserRouter>
 
@@ -82,7 +85,7 @@ function App() {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Main />}/>
 
-                    <Route path="translatex" element={<Tlx />} />
+                    <Route path="translatex" element={<Tlx uid={uid} />} />
                     <Route path="collections" element={<Collections />} />
                     <Route path="result" element={<TlxResult />} />
 
