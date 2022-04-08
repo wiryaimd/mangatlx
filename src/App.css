@@ -31,6 +31,12 @@
     height: 180px;
 }
 
+.img-crop-2{
+    object-fit: cover;
+    width: 100%;
+    height: 230px;
+}
+
 .space-neg-1{
     margin-top: -24px;
 }

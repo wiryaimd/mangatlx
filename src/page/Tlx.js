@@ -120,7 +120,7 @@ const Tlx = function(props){
                 console.log("cek ecekekckc: ", data);
                 console.log(data.url);
                 
-                setImgList(data.imgList);
+                setImgList(data.imgList); // need concat??
             }
 
             setLoading(false);
@@ -166,7 +166,7 @@ const Tlx = function(props){
         }
 
         let formData = new FormData();
-        formData.append("uniqId", props.uid);
+        formData.append("uniqId", user.username + "-" + props.uid);
         for(let i = 0; i < selectedData.length; i++){
             formData.append("file", selectedData[i]); // append with File type data for multipart post
         }
@@ -272,21 +272,32 @@ const Tlx = function(props){
                 
                 <div className="row bg-white mx-3 rounded-3">
                     <div className="col-12 m-3">
-                        <h5 className="font-popp-400">Selected Comics</h5>
+                        <h5 className="font-popp-400">Selected Comics ({imgList.length})</h5>
                     </div>
 
                     {
                         imgList.map(function(num, index){
                             const uid = crypto.randomUUID();
+                            let scaleTitle = imgList[index].substring(0, 12) + "... (" + (index + 1) + ")";
+
+                            let isUrl = false;
+                            if(scaleTitle.startsWith("http://") || scaleTitle.startsWith("https://")){
+                                isUrl = true;
+                            }
+
                             return (
-                                <div key={uid} className="col-6 col-md-4 px-3 px-sm-5 py-1 d-flex align-items-center justify-content-between border-bottom">
-                                    <div className="d-flex">
-                                        {/* <i className="ic-folder"></i> */}
-                                        <img src={previewImg[index]} className="w-100"></img>
-                                        <p className="mt-auto mx-2">{imgList[index]}</p>
-                                    </div>
+                                <div key={uid} className="col-6 col-md-4 col-lg-3 col-xxl-2 py-1 mb-1">
+                                    { isUrl ?
+                                        <img src={imgList[index]} className="img-crop-2 img-thumbnail rounded" alt={imgList[index]} title={imgList[index]}></img> :
+                                        <img src={previewImg[index]} className="img-crop-2 img-thumbnail rounded" alt={imgList[index]} title={imgList[index]}></img>
+                                    }
                                     
-                                    <i className="bi bi-x-lg " role="button" onClick={() => handleRemoveClick(index)}></i>
+
+                                    <div className="w-100 d-flex align-item-center mt-1">
+                                        {/* <i className="ic-folder"></i> */}
+                                        <p className="font-popp-400 mt-auto mx-2" title={imgList[index]}>{scaleTitle}</p>
+                                        <i className="bi bi-x-lg ms-auto" role="button" onClick={() => handleRemoveClick(index)}></i>
+                                    </div>
                                 </div>
                             );
                         })
