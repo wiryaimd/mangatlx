@@ -5,6 +5,14 @@ import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 
 import {languageSource, languageSourceId, languageTarget, languageTargetId} from "../util/LanguagesData";
+import { useNavigate } from "react-router-dom";
+
+class TlxModel{
+    constructor(url, file){
+        this.url = url;
+        this.file = file;
+    }
+}
 
 const Tlx = function(props){
 
@@ -12,12 +20,12 @@ const Tlx = function(props){
 
     let user = JSON.parse(localStorage.getItem("userdata"));
 
-    let [urlScrap, setUrlScrap] = useState("");
-    let [imgList, setImgList] = useState([]);
-    let [selectedLangSrc, setLangSrc] = useState("");
-    let [selectedLangTarget, setLangTarget] = useState("");
+    let navigate = useNavigate();
 
-    let [previewImg, setPreviewImg] = useState([]);
+    let [urlScrap, setUrlScrap] = useState("");
+    let [tlxList, setTlxList] = useState([]);
+    let [selectedLangSrc, setLangSrc] = useState("id");
+    let [selectedLangTarget, setLangTarget] = useState("en");
 
     let [errMsg, setErrMsg] = useState("");
     let [isErr, setErr] = useState(false);
@@ -27,14 +35,28 @@ const Tlx = function(props){
 
         if(user == null){
             // navigate to slebew
+            showErrMsg("User not authenticated.. please login before translate");
             return;
         }
 
+        if(loading){
+            console.log("still loading, wait ya");
+            return;
+        }
+
+        setLoading(true);
+
         let tlxId = user.username + "-" + props.uid;
+
+        let pathUrl = [];
+        for(let i = 0; i < tlxList.length; i++){
+            pathUrl.push(tlxList[i].url);
+        }
+
         let data = {
             id: tlxId,
             username: user.username,
-            path: imgList,
+            path: pathUrl,
             langSrc: selectedLangSrc,
             langTo: selectedLangTarget
         };
@@ -55,8 +77,11 @@ const Tlx = function(props){
                 console.log(resData.title);
                 return;
             }
+            setLoading(false);
             
         }).catch(function(e){
+            setLoading(false);
+
             showErrMsg("Something went wrong.. Failed to process image");
         });;
     }
@@ -67,14 +92,18 @@ const Tlx = function(props){
     }
 
     function handleRemoveClick(index){
-        let data = [...imgList];
-        let fileData = [...previewImg];
+        // let data = [...imgList];
+        // let fileData = [...previewImg];
 
-        data.splice(index, 1);
-        fileData.splice(index, 1);
+        let tlxData = [...tlxList];
+        tlxData.splice(index, 1);
+        setTlxList(tlxData);
 
-        setPreviewImg(fileData);
-        setImgList(data);
+        // data.splice(index, 1);
+        // fileData.splice(index, 1);
+
+        // setPreviewImg(fileData);
+        // setImgList(data);
     }
 
     function handleCloseError(){
@@ -119,8 +148,15 @@ const Tlx = function(props){
                 let data = JSON.parse(JSON.stringify(res.data));
                 console.log("cek ecekekckc: ", data);
                 console.log(data.url);
+                console.log(data.imgList);
+
+                let tlxData = [];
+                for(let i = 0; i < data.imgList.length; i++){
+                    let tlxModel = new TlxModel(data.imgList[i], null);
+                    tlxData.push(tlxModel);
+                }
                 
-                setImgList(data.imgList); // need concat??
+                setTlxList(tlxList.concat(tlxData));
             }
 
             setLoading(false);
@@ -153,7 +189,7 @@ const Tlx = function(props){
         const urlImage = Array.from(selectedData).map((file) => URL.createObjectURL(file));
         console.log(urlImage);
 
-        if(imgList.length + selectedData.length > 12){
+        if(tlxList.length + selectedData.length > 12){
             setLoading(false);
 
             showErrMsg("You dont have permission to translate more than 32 pages");
@@ -184,8 +220,13 @@ const Tlx = function(props){
 
             console.log("img post complete: " + res.status);
             if(res.status === 200){
-                setImgList(imgList.concat(img));
-                setPreviewImg(previewImg.concat(urlImage));
+                let tlxData = [];
+                for(let i = 0; i < selectedData.length; i++){
+                    let data = new TlxModel(img[i], urlImage[i]);
+                    tlxData.push(data);
+                }
+
+                setTlxList(tlxList.concat(tlxData));
 
                 Array.from(selectedData).map(function(file){
                     URL.revokeObjectURL(file);
@@ -200,23 +241,17 @@ const Tlx = function(props){
 
             
             showErrMsg("There is an error in server when uploading image, try again later..");
-
-            // let rmImg = imgList;
-            // for(let i = 0; i < img.length; i++){
-            //     rmImg = rmImg.splice(imgList.indexOf(img[i]), 1);
-            //     console.log("removing: " + img[i]);
-            // }
-
-            // setImgList(rmImg);
         });
     }
 
     function langSrc(e){
         console.log("lang src select: " + e.target.value);
+        setLangSrc(String.toString(e.target.value));
     }
 
     function langTarget(e){
         console.log("lang target select: " + e.target.value);
+        setLangTarget(String.toString(e.target.value));
     }
 
     return(
@@ -272,30 +307,30 @@ const Tlx = function(props){
                 
                 <div className="row bg-white mx-3 rounded-3">
                     <div className="col-12 m-3">
-                        <h5 className="font-popp-400">Selected Comics ({imgList.length})</h5>
+                        <h5 className="font-popp-400">Selected Comics ({tlxList.length})</h5>
                     </div>
 
                     {
-                        imgList.map(function(num, index){
+                        tlxList.map(function(num, index){
                             const uid = crypto.randomUUID();
-                            let scaleTitle = imgList[index].substring(0, 12) + "... (" + (index + 1) + ")";
+                            let scaleTitle = tlxList[index].url.substring(0, 12) + "... (" + (index + 1) + ")";
 
                             let isUrl = false;
-                            if(scaleTitle.startsWith("http://") || scaleTitle.startsWith("https://")){
+                            if(scaleTitle.startsWith("http://") || scaleTitle.startsWith("https://") || tlxList[index].file == null){
                                 isUrl = true;
                             }
 
                             return (
                                 <div key={uid} className="col-6 col-md-4 col-lg-3 col-xxl-2 py-1 mb-1">
                                     { isUrl ?
-                                        <img src={imgList[index]} className="img-crop-2 img-thumbnail rounded" alt={imgList[index]} title={imgList[index]}></img> :
-                                        <img src={previewImg[index]} className="img-crop-2 img-thumbnail rounded" alt={imgList[index]} title={imgList[index]}></img>
+                                        <img src={tlxList[index].url} className="img-crop-2 img-thumbnail rounded" alt={tlxList[index].url} title={tlxList[index].url}></img> :
+                                        <img src={tlxList[index].file} className="img-crop-2 img-thumbnail rounded" alt={tlxList[index].url} title={tlxList[index].url}></img>
                                     }
                                     
 
                                     <div className="w-100 d-flex align-item-center mt-1">
                                         {/* <i className="ic-folder"></i> */}
-                                        <p className="font-popp-400 mt-auto mx-2" title={imgList[index]}>{scaleTitle}</p>
+                                        <p className="font-popp-400 mt-auto mx-2" title={tlxList[index].url}>{scaleTitle}</p>
                                         <i className="bi bi-x-lg ms-auto" role="button" onClick={() => handleRemoveClick(index)}></i>
                                     </div>
                                 </div>
