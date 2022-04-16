@@ -74,12 +74,14 @@ const Tlx = function(props){
             if(res.status == 200){
                 let resData = JSON.parse(res.data);
 
-                console.log(resData.title);
+                console.log(resData);
                 return;
             }
             setLoading(false);
             
         }).catch(function(e){
+            console.log(e);
+
             setLoading(false);
 
             showErrMsg("Something went wrong.. Failed to process image");
@@ -246,12 +248,12 @@ const Tlx = function(props){
 
     function langSrc(e){
         console.log("lang src select: " + e.target.value);
-        setLangSrc(String.toString(e.target.value));
+        setLangSrc(e.target.value);
     }
 
     function langTarget(e){
         console.log("lang target select: " + e.target.value);
-        setLangTarget(String.toString(e.target.value));
+        setLangTarget(e.target.value);
     }
 
     return(
