@@ -5,7 +5,7 @@ import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 
 import {languageSource, languageSourceId, languageTarget, languageTargetId} from "../util/LanguagesData";
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 
 class TlxModel{
     constructor(url, file){
@@ -70,14 +70,19 @@ const Tlx = function(props){
                 password: user.password
             }
         }).then(function(res){
+            setLoading(false);
             console.log("post process complete");
-            if(res.status == 200){
-                let resData = JSON.parse(res.data);
 
+            if(res.status == 200){
+                let resData = JSON.parse(JSON.stringify(res.data));
                 console.log(resData);
+                
+                navigate(`/result/${resData.dirId}`, {
+                    state: resData
+                });
+
                 return;
             }
-            setLoading(false);
             
         }).catch(function(e){
             console.log(e);

@@ -1,6 +1,9 @@
 
 
-const SaveResult = function(){
+const SaveResult = function(props){
+
+    let data = props.tlxData;
+
     return(
         <div className="container-fluid mt-4 mt-sm-5" >
             <div className="bg-white border rounded-3">
@@ -12,14 +15,14 @@ const SaveResult = function(){
 
                 <div className="row px-3">
                     <div className="col">
-                        <p className="font-popp-400">37 Image Translated (4 Local) (32 Web)</p>
+                        <p className="font-popp-400">{data.pathList.length} Image Translated</p>
                     </div>
                 </div>
 
                 <div className="row px-3">
                     <div className="col-12 bg-light px-3 py-2">
-                        <p className="my-0 font-popp-600">Kage noh ngontolx chap 38 njay</p>
-                        <p className="my-0 font-popp-400">Publisher: <a href="#">Wiryaimd</a></p>
+                        <p className="my-0 font-popp-600">{data.title}</p>
+                        <p className="my-0 font-popp-400">Publisher: <a href="#">{data.publisher}</a></p>
                         <p className="font-popp-400">Date: 08-Mar-2022</p>
                     </div>
                 </div>

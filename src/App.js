@@ -87,7 +87,7 @@ function App() {
 
                     <Route path="translatex" element={<Tlx uid={uid} />} />
                     <Route path="collections" element={<Collections />} />
-                    <Route path="result" element={<TlxResult />} />
+                    <Route path="result/:tlId" element={<TlxResult />} />
 
                     <Route path="login" element={<Login />} />
                     <Route path="signup" element={<Signup />} />
