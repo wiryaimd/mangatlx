@@ -48,7 +48,7 @@ const Navigation = function(props){
 
                     <div className="row">
                         <div className="col-12">
-                            <a href="#">My Collections</a>
+                            <Link to="/my">My Collections</Link>
                         </div>
                         <div className="col-12">
                             <a href="#" onClick={logout}>Logout</a>

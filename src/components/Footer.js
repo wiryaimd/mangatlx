@@ -14,7 +14,7 @@ const Footer = function(){
                     <ul>
                         <li><a href="https://github.com/wiryaimd" target="_blank">Github</a></li>
                         <li><a href="#">Discord</a></li>
-                        <li><a href="#">Mail</a></li>
+                        <li><a href="#">adnyasutha003@gmail.com</a></li>
                     </ul>
                 </div>
 

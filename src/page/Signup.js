@@ -2,24 +2,46 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
+import { validateEmail } from "../util/Tools";
 
 const Signup = function(){
 
     let navigate = useNavigate();
 
+    let [loading, setLoading] = useState(false);
+    let [errMsg, setErrMsg] = useState("");
+
     function signUpListener(e){
         e.preventDefault();
+
+        setErrMsg("");
 
         let email = e.target.email.value;
         let username = e.target.username.value;
         let password = e.target.password.value;
+
+        if(!validateEmail(email)){
+            setErrMsg("Invalid Email...");
+            return;
+        }
+
+        if(username.trim().length == 0 || email.trim().length == 0 || password.length == 0){
+            setErrMsg("Username/Email/Password should not empty");
+            return;
+        }
+
+        setLoading(true);
+
 
         axios.post("http://localhost:8080/signup", {
             email: email,
             username: username,
             password: password
         }).then(function(res){
+            setLoading(false);
+
             if(res.status != 200){
+                setErrMsg("Signup failed, please try again");
                 return;
             }
 
@@ -31,12 +53,26 @@ const Signup = function(){
             localStorage.setItem("userdata", JSON.stringify(userData));
 
             navigate("/");
+        }).catch(function(e){
+            setLoading(false);
+
+            if(e.response.status == 409){
+                setErrMsg("Username or Email already exist");
+                return;
+            }
+            
+            setErrMsg("Failed: " + e);
         });
     }
 
     function toLogin(){
         navigate("/login");
     }
+
+    function handleCloseError(){
+        setErrMsg("");
+    }
+
 
     return(
         <div className="bg-light">
@@ -55,16 +91,32 @@ const Signup = function(){
                                     <h5 className="font-popp-600">MangaTLX Sign Up</h5>
                                 </div>
 
+                                { errMsg.length != 0 &&
+                                    <div className="col-12 d-flex my-3 bg-danger rounded-3">
+                                        <i className="bi bi-exclamation-circle text-white m-2"></i>
+                                        <p className="font-popp-400 text-white m-2">{errMsg}</p>
+                                        <i className="bi bi-x-lg align-items-end text-white m-2 ms-auto" role="button" onClick={handleCloseError}></i>
+                                    </div>
+                                }
+
                                 <div className="col-12">
-                                    <input type="email" name="email" className="form-control" placeholder="Email..."></input>
+                                    <input type="text" name="email" className="form-control" placeholder="Email"></input>
                                 </div>
 
                                 <div className="col-12">
-                                    <input type="text" name="username" className="form-control my-3" placeholder="Username..."></input>
+                                    <input type="text" name="username" className="form-control my-3" placeholder="Username"></input>
                                 </div>
 
                                 <div className="col-12">
                                     <input type="password" name="password" className="form-control mb-3" placeholder="Password"></input>
+                                </div>
+
+                                <div id="tlx-loading" className="col-12 d-flex justify-content-center my-2">
+                                    { loading &&
+                                        <div className="spinner-border" role="status">
+                                            <span className="visually-hidden">Loading..</span>
+                                        </div>
+                                    }
                                 </div>
 
                                 <div className="col-12">

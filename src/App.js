@@ -13,6 +13,7 @@ import Collections from './page/Collections';
 import Login from './page/Login';
 import Signup from './page/Signup';
 import { useEffect, useState, useRef } from 'react';
+import MyCollections from './page/MyCollections';
 
 const Main = function(){
 
@@ -91,6 +92,7 @@ function App() {
 
                     <Route path="login" element={<Login />} />
                     <Route path="signup" element={<Signup />} />
+                    <Route path="my" element={<MyCollections/>} />
                 </Route>
             </Routes>
         </BrowserRouter>

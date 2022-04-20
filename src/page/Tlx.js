@@ -5,7 +5,7 @@ import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 
 import {languageSource, languageSourceId, languageTarget, languageTargetId} from "../util/LanguagesData";
-import { createSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 class TlxModel{
     constructor(url, file){
@@ -31,6 +31,8 @@ const Tlx = function(props){
     let [isErr, setErr] = useState(false);
     let [loading, setLoading] = useState(false);
 
+    let btnProcess = useRef();
+
     function handleProcess(e){
 
         if(user == null){
@@ -39,10 +41,17 @@ const Tlx = function(props){
             return;
         }
 
+        if(tlxList.length == 0){
+            showErrMsg("Please select your image to translate");
+            return;
+        }
+
         if(loading){
             console.log("still loading, wait ya");
             return;
         }
+
+        btnProcess.current.className += " bg-color-1";
 
         setLoading(true);
 
@@ -83,11 +92,15 @@ const Tlx = function(props){
 
                 return;
             }
+
+            btnProcess.current.classList.remove("bg-color-1");
+            showErrMsg("Fail.. (Code: " + res.status + ")");
             
         }).catch(function(e){
             console.log(e);
 
             setLoading(false);
+            btnProcess.current.classList.remove("bg-color-1");
 
             showErrMsg("Something went wrong.. Failed to process image");
         });;
@@ -288,29 +301,6 @@ const Tlx = function(props){
                     </div>
 
                 </div>
-
-                <div className="row mt-5">
-                    <div id="tlx-loading" className="col-12 d-flex justify-content-center">
-                        { loading &&
-                            <div className="spinner-border" role="status">
-                                <span className="visually-hidden">Loading..</span>
-                            </div>
-                        }
-                    </div>
-
-                </div>
-
-                <div className="row mx-5">
-                    <div className="row">
-                        { isErr &&
-                            <div className="col-12 d-flex bg-danger rounded-3">
-                                <i className="bi bi-exclamation-circle text-white m-2"></i>
-                                <p className="font-popp-400 text-white m-2">{errMsg}</p>
-                                <i className="bi bi-x-lg align-items-end text-white m-2 ms-auto" role="button" onClick={handleCloseError}></i>
-                            </div>
-                        }
-                    </div>
-                </div>
                 
                 <div className="row bg-white mx-3 rounded-3">
                     <div className="col-12 m-3">
@@ -348,6 +338,29 @@ const Tlx = function(props){
                     
                 </div>
 
+                <div className="row mx-5 mt-3">
+                    <div className="row">
+                        { isErr &&
+                            <div className="col-12 d-flex bg-danger rounded-3">
+                                <i className="bi bi-exclamation-circle text-white m-2"></i>
+                                <p className="font-popp-400 text-white m-2">{errMsg}</p>
+                                <i className="bi bi-x-lg align-items-end text-white m-2 ms-auto" role="button" onClick={handleCloseError}></i>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div id="tlx-loading" className="col-12 d-flex justify-content-center">
+                        { loading &&
+                            <div className="spinner-border" role="status">
+                                <span className="visually-hidden">Loading..</span>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+
                 <div className="row mt-5 mx-3 bg-n1 px-4 pt-4 pb-5 rounded-3 d-flex">
                     <div className="col-12 col-sm-4 mt-3 mt-sm-0">
                         <label htmlFor="tlx-src" className="font-popp-400 text-light">Language Source</label>
@@ -379,7 +392,7 @@ const Tlx = function(props){
                 <div className="row">
                     <div className="col-12">
                         <div className="d-flex justify-content-center w-100 space-neg-1">
-                            <button className="btn btn-primary w-25 p-3 rounded-pill font-popp-600" onClick={handleProcess}>Process</button>
+                            <button className="btn btn-primary w-25 p-3 rounded-pill font-popp-600" onClick={handleProcess} ref={btnProcess}>Process</button>
                         </div>
                     </div>
                 </div>

@@ -11,6 +11,17 @@
     font-weight: 400;
 }
 
+.bg-color-1{
+    background-color: #0B5ED7;
+    color: white;
+    border: solid 3px #f3f3f3;
+}
+
+.bg-color-1:hover{
+    cursor: default;
+    color: white;
+}
+
 .font-popp-500{
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
