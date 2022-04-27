@@ -24,8 +24,8 @@ const Tlx = function(props){
 
     let [urlScrap, setUrlScrap] = useState("");
     let [tlxList, setTlxList] = useState([]);
-    let [selectedLangSrc, setLangSrc] = useState("id");
-    let [selectedLangTarget, setLangTarget] = useState("en");
+    let [selectedLangSrc, setLangSrc] = useState("");
+    let [selectedLangTarget, setLangTarget] = useState("");
 
     let [errMsg, setErrMsg] = useState("");
     let [isErr, setErr] = useState(false);
@@ -41,13 +41,18 @@ const Tlx = function(props){
             return;
         }
 
+        if(loading){
+            console.log("still loading, wait ya");
+            return;
+        }
+
         if(tlxList.length == 0){
             showErrMsg("Please select your image to translate");
             return;
         }
 
-        if(loading){
-            console.log("still loading, wait ya");
+        if(selectedLangSrc.length == 0 || selectedLangTarget.length == 0){
+            showErrMsg("Please select language from/to");
             return;
         }
 

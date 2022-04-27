@@ -27,7 +27,7 @@ const Collections = function(){
                                     <div className="card p-1">
                                         <img src={sample1} className="card-img-top img-crop" alt="img1.jpg"></img>
                                         <div className="card-body" role="button">
-                                            <p className="card-title my-0 lh-1 font-popp-500">Anjim bett aowkaowko kont dont ol ixixi hayuu papale lpaplapea</p>
+                                            <p className="card-title my-0 lh-1 font-popp-500" role="button">Anjim bett aowkaowko kont dont ol ixixi hayuu papale lpaplapea</p>
                                             <p className="card-text my-0 fw-light">Pub: Wiryaimd</p>
                                         </div>
                                     </div>

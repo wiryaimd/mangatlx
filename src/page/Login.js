@@ -51,6 +51,8 @@ const Login = function(){
         }).catch(function(e){
             setLoading(false);
 
+            setErrMsg("Login failed... please try again later");
+
             if(e.response.status == 401){
                 setErrMsg("Wrong Username/Password");
                 return;

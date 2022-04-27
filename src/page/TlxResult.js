@@ -3,12 +3,11 @@ import SaveResult from "../components/SaveResult";
 import sl1 from "../img/sl1.jpg";
 import sample1 from "../img/sample1.jpg";
 import sample2 from "../img/sample2.jpg";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
 const TlxResult = function(){
-    const imgs = [sample1, sample2];
 
     let tlxParams = useParams();
     console.log("tl id res: " + tlxParams.tlId);
@@ -16,34 +15,52 @@ const TlxResult = function(){
     let { state } = useLocation();
     let tlxModel = state;
 
+    let userData = JSON.parse(localStorage.getItem("userdata"));
+    let navigate = useNavigate();
+
     let tlxRaw = {
+        tlId: -1,
         title: "",
         description: "",
         dirId: "",
+        publisher: "",
+        isShare: false,
         pathList: []
     };
 
     if(state != null){
         console.log(tlxModel);
-        console.log(tlxModel.title);
+        console.log(tlxModel.isShare);
 
         tlxRaw = tlxModel;
     }
 
     let [tlxData, setTlxData] = useState(tlxRaw);
 
+    let isOwner = false;
     if(tlxData.title.length == 0 && tlxData.pathList.length == 0){
         axios.get(`http://localhost:8080/result?id=${tlxParams.tlId}`).then(function(res){
             console.log("status: " + res.status);
             if(res.status == 200){
                 let data = JSON.parse(JSON.stringify(res.data));
+                console.log("share: " + data.isShare);
+
                 setTlxData(data);
+
+                isOwner = userData.username == data.publisher;
             }
         }).catch(function(e){
             console.log(e);
         });
+    }else{
+        if(userData != null){
+            isOwner = userData.username == tlxData.publisher;
+        }
     }
-    
+
+    function setShareValue(val){
+        tlxData.isShare = val;
+    }
 
     return (
         <div className="bg-light">
@@ -64,7 +81,7 @@ const TlxResult = function(){
 
                                         { index == 0 &&
                                             <div className="col-12 col-lg-5 order-0 order-lg-1 ">
-                                                <SaveResult tlxData={tlxData} />
+                                                <SaveResult tlxData={tlxData} isOwner={isOwner} shareValue={setShareValue}/>
                                             </div>
                                         }
                                     </div>
