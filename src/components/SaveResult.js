@@ -62,7 +62,7 @@ const SaveResult = function(props){
                 <div className="row px-3 mt-3">
                     <div className="col">
                         <i className="bi bi-clipboard2 p-1" role="button"></i>
-                        <a className="px-1" href={"https://mangatlx.my.to/result?id=" + data.tlId}>{"https://mangatlx.my.to/result?id=" + data.tlId}</a>
+                        <a className="px-1" href={"https://mangatlx.my.to/result/" + data.tlId}>{"https://mangatlx.my.to/result/" + data.tlId}</a>
                     </div>
                 </div>
 

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;900&display=swap');
 
 *{
     box-sizing: border-box;
@@ -25,6 +26,50 @@
 .font-popp-500{
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
+}
+
+.font-inter-1{
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 36px;
+}
+
+.font-inter-1sec{
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 24px;
+}
+
+.font-inter-2{
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.btn1{
+    background-color: #009baf;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    border-radius: 6px;
+    color: white;
+}
+
+.btn1:hover{
+    color: #f0f0f0;
+    background-color: #006e7c;
+}
+
+.text-color1{
+    color: #009baf;
+}
+
+.text-color1:hover{
+    color: #009baf;
+}
+
+.text-color2{
+    color: #2D3748;
 }
 
 .font-popp-600{

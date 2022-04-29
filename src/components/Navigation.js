@@ -63,7 +63,7 @@ const Navigation = function(props){
 
                 <div className="container-fluid">
                     {/* class navbar-brand ntuk menandakan ini title */}
-                    <a className="navbar-brand" href="/">MangaTLX</a>
+                    <a className="navbar-brand font-popp-600 text-color1" href="/">MangaTLX</a>
                     
                     {/* membuat collapse button saat web diperkecil gituch */}
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Menumboy">
@@ -82,7 +82,7 @@ const Navigation = function(props){
                             </li>
 
                             <li className="nav-item">
-                                <Link to="/collections" className="nav-link"><i className="bi bi-box-seam ms-3"></i> Collections</Link>
+                                <Link to="#pricing" className="nav-link"><i className="bi bi-box-seam ms-3"></i> Pricing</Link>
                             </li>
 
                             <li className="nav-item">

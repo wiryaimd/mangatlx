@@ -36,23 +36,23 @@ const Main = function(){
             <div className="container-fluid pt-5">
 
                 <div className="row px-2 px-sm-5 pt-5 align-items-center" style={{"backgroundColor": "#f1f1f1"}}>
-                    <div className="col-md-7 col-lg-6 mb-5">
+                    <div className="col-12 col-lg-6 mb-5">
                         <MainSlide />
                     </div>
 
-                    <div className="col-md-5 col-lg-6 ps-3">
-                        <h4>Automatically translate Manga/Manhwa/Manhua or other Comics to any languages you want</h4>
-                        <p className="font-popp-400">Fast translation up to 60+ languages. This web will atuomatically detect text in image, auto translate text and draw text automatically</p>
+                    <div className="col-12 col-lg-6 ps-3">
+                        <h4 className="font-inter-1 text-color2">Automatically translate <span className="text-color1">Manga / Manhwa / Manhua</span> or other Comics to any languages you want</h4>
+                        <p className="font-inter-2 mt-5">Fast translation up to 60+ languages. This web will atuomatically detect text in image, auto translate text and draw text automatically</p>
 
-                        <button className="btn btn-primary px-5 py-2 mt-2 mb-5" onClick={handleStart}>Start Translate</button>
+                        <button className="btn btn1 px-5 py-2 mt-2 mb-5" onClick={handleStart}>Start Translate</button>
                     </div>
                 </div>
 
                 <div className="row p-3">
-                    <div className="col-12 mt-4 mb-2">
+                    <div className="col-12 ms-3 mt-4 mb-2">
                         <div className="d-flex justify-content-between">
-                            <h5 className="font-popp-500">Translated Result</h5>
-                            <a href="#">Browse All</a>
+                            <h5 className="font-popp-600 text-color2">Translated Result</h5>
+                            {/* <a href="#">Browse All</a> */}
                         </div>
                     </div>
 
@@ -73,8 +73,10 @@ const Main = function(){
 }
 
 function App() {
-    const uid = crypto.randomUUID().substring(0, 8);
-    console.log("uid created: " + uid);
+    let uidm = (Date.now().toString(36) + Math.random().toString(36).substring(2)).substring(0, 8);
+    console.log(uidm);
+    // const uid = crypto.randomUUID().substring(0, 8);
+    // console.log("uid created: " + uid);
 
     return (
         <BrowserRouter>
@@ -86,7 +88,7 @@ function App() {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Main />}/>
 
-                    <Route path="translatex" element={<Tlx uid={uid} />} />
+                    <Route path="translatex" element={<Tlx uid={uidm} />} />
                     <Route path="collections" element={<Collections />} />
                     <Route path="result/:tlId" element={<TlxResult />} />
 
