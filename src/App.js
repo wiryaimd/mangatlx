@@ -14,6 +14,7 @@ import Login from './page/Login';
 import Signup from './page/Signup';
 import { useEffect, useState, useRef } from 'react';
 import MyCollections from './page/MyCollections';
+import Pricing from './components/Pricing';
 
 const Main = function(){
 
@@ -35,7 +36,7 @@ const Main = function(){
 
             <div className="container-fluid pt-5">
 
-                <div className="row px-2 px-sm-5 pt-5 align-items-center" style={{"backgroundColor": "#f1f1f1"}}>
+                <div className="row px-2 px-sm-5 pt-5 align-items-center bg-sprinkle">
                     <div className="col-12 col-lg-6 mb-5">
                         <MainSlide />
                     </div>
@@ -60,6 +61,10 @@ const Main = function(){
                         <Slidetl />
                     </div>
 
+                </div>
+
+                <div className="row">
+                    <Pricing />
                 </div>
 
             </div>

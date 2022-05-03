@@ -62,7 +62,7 @@ const MyCollections = function(){
                             return(
                                 <div className="col-6 col-md-4 col-lg-3 mt-3" key={index}>
                                     <div className="card p-1">
-                                        <img src={fImg} className="card-img-top img-crop" alt="img1.jpg"></img>
+                                        <img src={fImg} className="card-img-top img-crop" alt={fImg}></img>
                                         <div className="card-body" role="button">
                                             <p className="card-title my-0 lh-1 font-popp-500" role="button" onClick={() => handleTitleClick(index)}>{data.title}</p>
                                             <p className="card-text my-0 fw-light">Pub: {data.publisher}</p>

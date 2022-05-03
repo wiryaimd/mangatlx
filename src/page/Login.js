@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import GoogleLogin from "react-google-login";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
 
@@ -70,12 +71,56 @@ const Login = function(){
         setErrMsg("");
     }
 
+    function loginGoogle(googleData){
+        let data = JSON.parse(JSON.stringify(googleData));
+
+        axios.post("http://localhost:8080/login", {
+            username: data.profileObj.email,
+            password: data.profileObj.googleId
+        }).then(function(res){
+
+            let status = res.status;
+            console.log("status: ", status);
+
+            if(status != 200){
+                setErrMsg("Login failed, please check your username/password");
+                return;
+            }
+
+            let userData = {
+                username: data.profileObj.email,
+                password: data.profileObj.googleId
+            }
+
+            localStorage.setItem("userdata", JSON.stringify(userData));
+            navigate("/");
+
+        }).catch(function(e){
+
+            setErrMsg("Login failed... please try again later");
+
+            if(e.response.status == 401){
+                setErrMsg("Wrong Username/Password");
+                return;
+            }
+            
+            setErrMsg("Failed: " + e);
+        });
+
+        console.log(googleData);
+    }
+
+    function failureGoogle(result){
+        console.log("fail google jrott: " + result);
+        setErrMsg(result);
+    }
+
     return (
         <div className="bg-light">
 
             <Navigation />
 
-            <div className="container-fluid vh-100 d-flex align-items-center justify-content-center">
+            <div className="container-fluid vh-100 d-flex align-items-center justify-content-center bg-sprinkle">
 
                 <div className="col-12">
 
@@ -96,7 +141,7 @@ const Login = function(){
                                 }
 
                                 <div className="col-12">
-                                    <input type="text" name="username" className="form-control my-3" placeholder="Email/Username"></input>
+                                    <input type="email" name="username" className="form-control my-3" placeholder="Email/Username"></input>
                                 </div>
 
                                 <div className="col-12">
@@ -117,6 +162,17 @@ const Login = function(){
 
                                 <div className="col-12 d-flex justify-content-end mt-1">
                                     <a href="/forgot">Forgot password?</a>
+                                </div>
+
+                                <div className="col-12 d-flex justify-content-center">
+                                    <GoogleLogin
+                                        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                                        buttonText="Login with Google"
+                                        onSuccess={loginGoogle}
+                                        onFailure={failureGoogle}
+                                        cookiePolicy="single_host_origin">
+
+                                    </GoogleLogin>
                                 </div>
 
                                 <div className="col-12">

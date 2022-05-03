@@ -7,6 +7,10 @@
     padding: 0px;
 }
 
+.bg-sprinkle{
+    background-image: url("./img/sprinkle3.svg");
+}
+
 .font-popp-400{
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
@@ -68,8 +72,29 @@
     color: #009baf;
 }
 
+.border-img{
+    cursor: pointer;
+    border: 2px dashed #c4c4c4;
+    border-radius: 12px;
+    height: 132px;
+}
+
+.border-img-2{
+    cursor: pointer;
+    border: 2px dashed #c4c4c4;
+    border-radius: 12px;
+}
+
 .text-color2{
     color: #2D3748;
+}
+
+.text-color3{
+    color: #eeeeee;
+}
+
+.text-color3:hover{
+    color: #c4c4c4;
 }
 
 .font-popp-600{

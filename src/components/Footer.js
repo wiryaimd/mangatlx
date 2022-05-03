@@ -12,16 +12,16 @@ const Footer = function(){
                 <div className="col">
                     <h5 className="text-white">Contact</h5>
                     <ul>
-                        <li><a href="https://github.com/wiryaimd" target="_blank">Github</a></li>
-                        <li><a href="#">Discord</a></li>
-                        <li><a href="#">adnyasutha003@gmail.com</a></li>
+                        <li><a href="https://github.com/wiryaimd" className="text-color3" target="_blank">Github</a></li>
+                        <li><a href="#" className="text-color3">Discord</a></li>
+                        <li><a href="#" className="text-color3">adnyasutha003@gmail.com</a></li>
                     </ul>
                 </div>
 
                 <div className="col">
                     <h5 className="text-white">Apps</h5>
                     <ul>
-                        <li><a href="https://play.google.com/store/apps/details?id=com.wiryaimd.mangatranslator" target="_blank">PlayStore</a></li>
+                        <li><a href="https://play.google.com/store/apps/details?id=com.wiryaimd.mangatranslator" className="text-color3" target="_blank">PlayStore</a></li>
                         {/* <li><a href="">API Docs</a></li> */}
                     </ul>
                 </div>
@@ -29,9 +29,9 @@ const Footer = function(){
                 <div className="col">
                     <h5 className="text-white">Help</h5>
                     <ul>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Term & Privacy</a></li>
+                        <li><a href="#" className="text-color3">About</a></li>
+                        <li><a href="#" className="text-color3">FAQ</a></li>
+                        <li><a href="#" className="text-color3">Term & Privacy</a></li>
                     </ul>
                 </div>
 

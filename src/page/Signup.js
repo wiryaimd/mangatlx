@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import { validateEmail } from "../util/Tools";
+import GoogleLogin from "react-google-login";
 
 const Signup = function(){
 
@@ -36,7 +37,13 @@ const Signup = function(){
         axios.post("http://localhost:8080/signup", {
             email: email,
             username: username,
-            password: password
+            password: password,
+            isPremium: false,
+            premiumDate: -1,
+            dailyTlx: {
+                count: 0,
+                day: -1
+            }
         }).then(function(res){
             setLoading(false);
 
@@ -46,7 +53,7 @@ const Signup = function(){
             }
 
             let userData = {
-                username: username,
+                username: email,
                 password: password
             }
 
@@ -69,6 +76,53 @@ const Signup = function(){
         navigate("/login");
     }
 
+    function signUpGoogle(googleData){
+        let data = JSON.parse(JSON.stringify(googleData));
+        console.log(data.profileObj.email);
+        console.log(data.profileObj.name);
+        console.log(data.profileObj.googleId);
+
+        axios.post("http://localhost:8080/signup", {
+            email: data.profileObj.email,
+            username: data.profileObj.name,
+            password: data.profileObj.googleId,
+            isPremium: false,
+            premiumDate: -1,
+            dailyTlx: {
+                count: 0,
+                day: -1
+            }
+        }).then(function(res){
+
+            if(res.status != 200){
+                setErrMsg("Signup failed, please try again");
+                return;
+            }
+
+            let userData = {
+                username: data.profileObj.email,
+                password: data.profileObj.googleId,
+            }
+
+            localStorage.setItem("userdata", JSON.stringify(userData));
+
+            navigate("/");
+        }).catch(function(e){
+
+            if(e.response.status == 409){
+                setErrMsg("Username or Email already exist");
+                return;
+            }
+            
+            setErrMsg("Failed: " + e);
+        });
+    }
+
+    function failureGoogle(result){
+        console.log(result);
+        setErrMsg(result);
+    }
+
     function handleCloseError(){
         setErrMsg("");
     }
@@ -79,7 +133,7 @@ const Signup = function(){
 
             <Navigation />
 
-            <div className="container-fluid vh-100 d-flex align-items-center justify-content-center">
+            <div className="container-fluid vh-100 d-flex align-items-center justify-content-center bg-sprinkle">
 
                 <div className="col-12">
 
@@ -121,6 +175,17 @@ const Signup = function(){
 
                                 <div className="col-12">
                                     <input type="submit" className="btn btn-success w-100 rounded-pill font-popp-600" value="Sign Up"></input>
+                                </div>
+
+                                <div className="col-12 mt-3 d-flex justify-content-center">
+                                    <GoogleLogin
+                                        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                                        buttonText="Signup with Google"
+                                        onSuccess={signUpGoogle}
+                                        onFailure={failureGoogle}
+                                        cookiePolicy="single_host_origin">
+
+                                    </GoogleLogin>
                                 </div>
 
                                 <div className="col-12">

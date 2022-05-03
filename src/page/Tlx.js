@@ -31,6 +31,25 @@ const Tlx = function(props){
     let [isErr, setErr] = useState(false);
     let [loading, setLoading] = useState(false);
 
+    const [isPremium, setPremium] = useState(false);
+
+    useEffect(function(){
+        axios.get("http://localhost:8080/user/" + user.username).then(function(res){
+            if(res.status !== 200){
+                return;
+            }
+
+            let userModel = JSON.parse(JSON.stringify(res.data));
+            
+            console.log("isPremium: " + userModel.isPremium);
+            console.log("username: " + userModel.username);
+            console.log("daily count: " + userModel.dailyTlx.count);
+
+        }).catch(function(e){
+            console.log(e);
+        });
+    }, []);
+
     let btnProcess = useRef();
 
     function handleProcess(e){
@@ -286,6 +305,10 @@ const Tlx = function(props){
             <div className="container-fluid pt-5 bg-light min-vh-100">
 
                 <div className="row mt-4 mx-3">
+                    <div className="col-12 d-flex">
+                        <h5 className="font-inter-2 border-img-2 p-1">Hi, You are Supporter! <i className="bi bi-star"></i></h5>
+                    </div>
+
                     <div className="col-lg-6">
                         <label htmlFor="tlxInputUrl" className="form-label fw-light">URL of Chapter from Web Commics</label>
                         <div className="input-group">
@@ -306,8 +329,22 @@ const Tlx = function(props){
                     </div>
 
                 </div>
+
+                { tlxList.length === 0 &&
+                    <div className="row mt-3">
+                        <div className="col-12">
+                            <label htmlFor="tlxInputImg" className="border-img mt-3 mx-5 d-flex justify-content-center align-items-center">
+                                <div className="text-center">
+                                    <i className="bi bi-upload fa-2x"></i>
+                                    <p className="font-popp-400">Upload your comics image ...</p>
+                                </div>
+                            </label>
+                        </div>
+
+                    </div>
+                }
                 
-                <div className="row bg-white mx-3 rounded-3">
+                <div className="row bg-white mx-3 rounded-3 mt-3">
                     <div className="col-12 m-3">
                         <h5 className="font-popp-400">Selected Comics ({tlxList.length})</h5>
                     </div>

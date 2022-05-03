@@ -43,8 +43,8 @@ const Navigation = function(props){
         <div>
 
             { open &&
-                <div className="position-absolute mt-5 p-3 end-0 bg-light border rounded-3 w-25 mx-3 zindex-hundred" ref={accMenu}>
-                    <h5>{userData.username}</h5>
+                <div className="position-absolute mt-5 p-3 end-0 bg-light border rounded-3 w-30 mx-3 zindex-hundred" ref={accMenu}>
+                    <p className="font-inter-2">{userData.username}</p>
 
                     <div className="row">
                         <div className="col-12">
