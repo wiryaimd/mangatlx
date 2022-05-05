@@ -47,7 +47,7 @@ const MyCollections = function(){
     }
 
     return(
-        <div className="bg-light">
+        <div className="bg-white">
             <Navigation />
 
             <div className="container-fluid pt-5">
@@ -73,6 +73,18 @@ const MyCollections = function(){
                         })
                     }
                 </div>
+
+                { tlxData.length === 0 &&
+                    <div className="row mt-5">
+                        <div className="col-12 d-flex justify-content-center">
+                            <div className="text-center">
+                                <i className="bi bi-file-earmark-minus fa-5x"></i>
+                                <h3 className="font-popp-600">Translated Comics Empty...</h3>
+                                <button className="btn btn-primary mt-3 w-75" onClick={() => navigate("/translatex")}>Go to TranslateX</button>
+                            </div>
+                        </div>
+                    </div>
+                }
 
             </div>
         </div>

@@ -82,7 +82,8 @@ const Navigation = function(props){
                             </li>
 
                             <li className="nav-item">
-                                <Link to="#pricing" className="nav-link"><i className="bi bi-box-seam ms-3"></i> Pricing</Link>
+                                {/* <Link to="#pricing" className="nav-link"><i className="bi bi-box-seam ms-3"></i> Pricing</Link> */}
+                                <a href='http://localhost:3000#pricing' className="nav-link"><i className="bi bi-box-seam ms-3"></i> Pricing</a>
                             </li>
 
                             <li className="nav-item">

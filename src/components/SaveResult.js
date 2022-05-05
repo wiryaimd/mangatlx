@@ -36,6 +36,30 @@ const SaveResult = function(props){
         });
     }
 
+    function downloadZip(){
+        axios.get({
+            url: "http://localhost:8080/result.zip?dirId=" + data.dirId,
+            method: "GET",
+            responseType: "blob"
+    }).then(function(res){
+            if(res.status !== 200){
+                alert("Failed to download... try again later");
+            }
+
+            // download response file zip
+            const url = window.URL.createObjectURL(new Blob([res.data]))
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', "result.zip");
+            document.body.appendChild(link);
+            link.click();
+
+        }).catch(function(e){
+            alert("Failed to download... try again later");
+            console.log(e);
+        });
+    }
+
     return(
         <div className="container-fluid mt-4 mt-sm-5" >
             <div className="bg-white border rounded-3">
@@ -55,7 +79,6 @@ const SaveResult = function(props){
                     <div className="col-12 bg-light px-3 py-2">
                         <p className="my-0 font-popp-600">{data.title}</p>
                         <p className="my-0 font-popp-400">Publisher: <a href="#">{data.publisher}</a></p>
-                        <p className="font-popp-400">Date: 08-Mar-2022</p>
                     </div>
                 </div>
 
@@ -68,7 +91,7 @@ const SaveResult = function(props){
 
                 <div className="d-flex mt-3">
                     <div className="col m-0 p-0 d-flex">
-                        <button className="btn btn-success w-100 rounded-0 font-popp-400 p-2 ">Download PDF</button>
+                        <button className="btn btn-success w-100 rounded-0 font-popp-400 p-2" onClick={downloadZip}>Download as ZIP</button>
                     </div>
 
                     {/* need to fix brooo */}

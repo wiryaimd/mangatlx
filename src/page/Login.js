@@ -72,12 +72,18 @@ const Login = function(){
     }
 
     function loginGoogle(googleData){
+        setLoading(true);
         let data = JSON.parse(JSON.stringify(googleData));
+
+        console.log("menghadehhh kont: ");
+        console.log(data);
 
         axios.post("http://localhost:8080/login", {
             username: data.profileObj.email,
             password: data.profileObj.googleId
         }).then(function(res){
+
+            setLoading(false);
 
             let status = res.status;
             console.log("status: ", status);
@@ -97,6 +103,8 @@ const Login = function(){
 
         }).catch(function(e){
 
+            setLoading(false);
+
             setErrMsg("Login failed... please try again later");
 
             if(e.response.status == 401){
@@ -111,7 +119,8 @@ const Login = function(){
     }
 
     function failureGoogle(result){
-        console.log("fail google jrott: " + result);
+        console.log("fail google jrott: ");
+        console.log(result);
         setErrMsg(result);
     }
 
@@ -141,7 +150,7 @@ const Login = function(){
                                 }
 
                                 <div className="col-12">
-                                    <input type="email" name="username" className="form-control my-3" placeholder="Email/Username"></input>
+                                    <input type="email" name="username" className="form-control my-3" placeholder="Email"></input>
                                 </div>
 
                                 <div className="col-12">

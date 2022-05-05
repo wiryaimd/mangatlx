@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useRef, useEffect } from "react";
 
-const Payment = function(){
+const Payment = function(props){
 
     let userData = JSON.parse(localStorage.getItem("userdata"));
 
@@ -58,13 +58,17 @@ const Payment = function(){
             if(res.status !== 200){
                 // set err msg // tell to contact dev mnyaawwknyu
                 console.log("save data not 200 ");
+                alert("Something went wrong.. please contact dev about your payment adnyasutha003@gmail.com")
                 return;
             }
 
+            props.paystatus(true);
             alert("Thankyou for subscribe MangaTLX as Supporter!");
 
         }).catch(function(err){
             // need to contact dev
+
+            alert("Something went wrong.. please contact dev about your payment adnyasutha003@gmail.com")
             console.log(err);
         });
 

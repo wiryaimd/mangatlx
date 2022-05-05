@@ -15,16 +15,32 @@ import Signup from './page/Signup';
 import { useEffect, useState, useRef } from 'react';
 import MyCollections from './page/MyCollections';
 import Pricing from './components/Pricing';
+import axios from 'axios';
 
 const Main = function(){
 
+    const [isPremium, setPremium] = useState(false);
+
     let navigate = useNavigate();
+    let userData = JSON.parse(localStorage.getItem("userdata"));
 
 
     // jadi gini borr, useEffect itu bakal ngerun code di tengahnya itu saat ada web nge rerender ulang yaa, trus ada array di param kedua juga bisa dipake untuk menentukan state mana yg bakal di listen ketika state tersebut menyebabkan render ulang yekannntod
-    // useEffect(function(){
-    //     console.log("menganjae anjae aowkawokawo");
-    // }, [dataStateBorr]);
+    useEffect(function(){
+        if(userData !== null){
+            axios.get("http://localhost:8080/user/" + userData.username).then(function(res){
+                if(res.status !== 200){
+                    return;
+                }
+
+                let dataRes = res.data;
+                setPremium(dataRes.premium);
+
+            }).catch(function(e){
+                console.log(e);
+            });
+        }
+    }, []);
     
     function handleStart(){
         navigate("/translatex");
@@ -63,8 +79,8 @@ const Main = function(){
 
                 </div>
 
-                <div className="row">
-                    <Pricing />
+                <div id="pricing" className="row">
+                    <Pricing premium={isPremium} />
                 </div>
 
             </div>

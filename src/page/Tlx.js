@@ -34,20 +34,24 @@ const Tlx = function(props){
     const [isPremium, setPremium] = useState(false);
 
     useEffect(function(){
-        axios.get("http://localhost:8080/user/" + user.username).then(function(res){
-            if(res.status !== 200){
-                return;
-            }
+        if(user !== null){
+            axios.get("http://localhost:8080/user/" + user.username).then(function(res){
+                if(res.status !== 200){
+                    return;
+                }
 
-            let userModel = JSON.parse(JSON.stringify(res.data));
-            
-            console.log("isPremium: " + userModel.isPremium);
-            console.log("username: " + userModel.username);
-            console.log("daily count: " + userModel.dailyTlx.count);
+                let userModel = JSON.parse(JSON.stringify(res.data));
+                
+                console.log("isPremium: " + userModel.premium);
+                console.log("username: " + userModel.username);
+                // console.log("daily count: " + userModel.dailyTlx.count); // still null
 
-        }).catch(function(e){
-            console.log(e);
-        });
+                setPremium(userModel.premium);
+
+            }).catch(function(e){
+                console.log(e);
+            });
+        }
     }, []);
 
     let btnProcess = useRef();
@@ -305,9 +309,11 @@ const Tlx = function(props){
             <div className="container-fluid pt-5 bg-light min-vh-100">
 
                 <div className="row mt-4 mx-3">
-                    <div className="col-12 d-flex">
-                        <h5 className="font-inter-2 border-img-2 p-1">Hi, You are Supporter! <i className="bi bi-star"></i></h5>
-                    </div>
+                    { isPremium &&
+                        <div className="col-12 d-flex">
+                            <h5 className="font-inter-2 border-img-2 p-1">Hi, You are Supporter! <i className="bi bi-star"></i></h5>
+                        </div>
+                    }
 
                     <div className="col-lg-6">
                         <label htmlFor="tlxInputUrl" className="form-label fw-light">URL of Chapter from Web Commics</label>
