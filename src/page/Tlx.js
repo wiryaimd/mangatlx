@@ -315,6 +315,13 @@ const Tlx = function(props){
                         </div>
                     }
 
+                    <div className="col-12">
+                        <p className="p-1 bg-color-2 font-popp-400">
+                            {"* Recommend to use image with more than 800x800 resolution for better result"}<br></br>
+                            {"* Processing translate may take some think, so just wait"}
+                        </p>
+                    </div>
+
                     <div className="col-lg-6">
                         <label htmlFor="tlxInputUrl" className="form-label fw-light">URL of Chapter from Web Commics</label>
                         <div className="input-group">

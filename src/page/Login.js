@@ -7,6 +7,11 @@ import Navigation from "../components/Navigation";
 const Login = function(){
     let navigate = useNavigate();
 
+    let userData = JSON.parse(localStorage.getItem("userdata"));
+    if(userData !== null) {
+        navigate("/");
+    }
+
     let [loading, setLoading] = useState(false);
     let [errMsg, setErrMsg] = useState("");
 

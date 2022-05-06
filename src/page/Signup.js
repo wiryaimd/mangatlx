@@ -1,18 +1,26 @@
 import axios from "axios";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import { validateEmail } from "../util/Tools";
 import GoogleLogin from "react-google-login";
+import { ReCAPTCHA } from "react-google-recaptcha";
 
 const Signup = function(){
 
     let navigate = useNavigate();
 
+    let userData = JSON.parse(localStorage.getItem("userdata"));
+    if(userData !== null) {
+        navigate("/");
+    }
+
     let [loading, setLoading] = useState(false);
     let [errMsg, setErrMsg] = useState("");
 
-    function signUpListener(e){
+    let recRef = useRef();
+
+    async function signUpListener(e){
         e.preventDefault();
 
         setErrMsg("");
@@ -31,8 +39,15 @@ const Signup = function(){
             return;
         }
 
+        if(password.length < 6){
+            setErrMsg("Password should more than 6 characters");
+            return;
+        }
+
         setLoading(true);
 
+        // const recToken = await recRef.current.executeAsync();
+        // console.log(recToken, "token ngab");
 
         axios.post("http://localhost:8080/signup", {
             email: email,
@@ -82,7 +97,7 @@ const Signup = function(){
         console.log(data.profileObj.name);
         console.log(data.profileObj.googleId);
 
-        axios.post("http://localhost:8080/signup", {
+        axios.post("http://localhost:8080/signup?oauth=true", {
             email: data.profileObj.email,
             username: data.profileObj.name,
             password: data.profileObj.googleId,
@@ -176,6 +191,16 @@ const Signup = function(){
                                 <div className="col-12">
                                     <input type="submit" className="btn btn-success w-100 rounded-pill font-popp-600" value="Sign Up"></input>
                                 </div>
+
+                                {/* <div className="col-12 mt-4">
+                                    <p>anjae</p>
+                                    <ReCAPTCHA 
+                                        sitekey={process.env.REACT_APP_GOOGLE_RECAPTCHA}
+                                        onChange={handleRec}
+                                    >
+
+                                    </ReCAPTCHA>
+                                </div> */}
 
                                 <div className="col-12 mt-3 d-flex justify-content-center">
                                     <GoogleLogin

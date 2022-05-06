@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const SaveResult = function(props){
 
     let data = props.tlxData;
     let user = JSON.parse(localStorage.getItem("userdata"));
+
+    let navigate = useNavigate();
 
     let [isShare, setShare] = useState(data.isShare);
 
@@ -37,27 +40,26 @@ const SaveResult = function(props){
     }
 
     function downloadZip(){
-        axios.get({
-            url: "http://localhost:8080/result.zip?dirId=" + data.dirId,
-            method: "GET",
-            responseType: "blob"
-    }).then(function(res){
-            if(res.status !== 200){
-                alert("Failed to download... try again later");
-            }
+        // axios.get("http://localhost:8080/save/" + data.dirId, {
+        //     responseType: "blob"
+        // }).then(function(res){
+        //     if(res.status !== 200){
+        //         alert("Failed to download... try again later");
+        //     }
 
-            // download response file zip
-            const url = window.URL.createObjectURL(new Blob([res.data]))
-            const link = document.createElement('a')
-            link.href = url
-            link.setAttribute('download', "result.zip");
-            document.body.appendChild(link);
-            link.click();
+        //     // // download response file zip
+        //     // const url = window.URL.createObjectURL(new Blob([res.data]))
+        //     // const link = document.createElement('a')
+        //     // link.href = url
+        //     // link.setAttribute('download', "result.zip");
+        //     // document.body.appendChild(link);
+        //     // link.click();
 
-        }).catch(function(e){
-            alert("Failed to download... try again later");
-            console.log(e);
-        });
+        // }).catch(function(e){
+
+        //     alert("Failed to download... try again later");
+        //     console.log(e);
+        // });
     }
 
     return(
@@ -79,6 +81,7 @@ const SaveResult = function(props){
                     <div className="col-12 bg-light px-3 py-2">
                         <p className="my-0 font-popp-600">{data.title}</p>
                         <p className="my-0 font-popp-400">Publisher: <a href="#">{data.publisher}</a></p>
+                        <p className="my-0 font-popp-400">Directory ID: <a href="#">{data.dirId}</a></p>
                     </div>
                 </div>
 
@@ -91,7 +94,7 @@ const SaveResult = function(props){
 
                 <div className="d-flex mt-3">
                     <div className="col m-0 p-0 d-flex">
-                        <button className="btn btn-success w-100 rounded-0 font-popp-400 p-2" onClick={downloadZip}>Download as ZIP</button>
+                        <a className="btn btn-success w-100 rounded-0 font-popp-400 p-2" href={"http://localhost:8080/save/" + data.dirId}>Download as ZIP</a>
                     </div>
 
                     {/* need to fix brooo */}
