@@ -4,7 +4,7 @@ import sl1 from '../img/sl1.jpg';
 import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 
-import {languageSource, languageSourceId, languageTarget, languageTargetId} from "../util/LanguagesData";
+import {languageSource, languageSourceId, languageTarget, languageTargetId, languageSourceSup} from "../util/LanguagesData";
 import { useNavigate } from "react-router-dom";
 
 class TlxModel{
@@ -421,6 +421,12 @@ const Tlx = function(props){
                         <label htmlFor="tlx-src" className="font-popp-400 text-light">Language Source</label>
                         <select id="tlx-src" className="form-select mt-1 p-2 font-popp-600" onChange={langSrc}>
                             {
+                                isPremium ? 
+                                languageSource.map(function(num, index){
+                                    return (
+                                        <option value={languageSourceSup[index]} key={index}>{languageTargetId[index]}</option>
+                                    );
+                                }) :
                                 languageSource.map(function(num, index){
                                     return (
                                         <option value={languageSourceId[index]} key={index}>{languageSource[index]}</option>

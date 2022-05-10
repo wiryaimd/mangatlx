@@ -128,7 +128,7 @@ const Login = function(){
         console.log(result);
         setErrMsg(result);
     }
-
+    
     return (
         <div className="bg-light">
 

@@ -97,7 +97,7 @@ const Signup = function(){
         console.log(data.profileObj.name);
         console.log(data.profileObj.googleId);
 
-        axios.post("http://localhost:8080/signup?oauth=true", {
+        axios.post("http://localhost:8080/signup", {
             email: data.profileObj.email,
             username: data.profileObj.name,
             password: data.profileObj.googleId,
