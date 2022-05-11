@@ -10,9 +10,9 @@ const MainSlide = function(){
                     <img src={sl1} className="d-block w-100 rounded-3"></img>
                 </div>
 
-                <div className="carousel-item">
+                {/* <div className="carousel-item">
                     <img src={sl2} className="d-block w-100 rounded-3"></img>
-                </div>
+                </div> */}
             </div>
 
             <button className="carousel-control-prev" type="button" data-bs-target="#main-slide" data-bs-slide="prev">
